@@ -10,23 +10,24 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
-var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils');
-var ChatMessageUtils = require('../utils/ChatMessageUtils');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var WordConstants = require('../constants/WordConstants');
+var Parse = require('parse').Parse;
 
-var ActionTypes = ChatConstants.ActionTypes;
+var ActionTypes = WordConstants.ActionTypes;
 
 module.exports = {
 
-  createMessage: function(text, currentThreadID) {
-    ChatAppDispatcher.dispatch({
-      type: ActionTypes.CREATE_MESSAGE,
-      text: text,
-      currentThreadID: currentThreadID
+  fetchAll: function(words) {
+    console.log('** fetchAll');
+    var wordQuery = new Parse.Query('Word').ascending('createdAt')
+    wordQuery.find().then(function(words){
+      console.log(words);
+      AppDispatcher.dispatch({
+        type: ActionTypes.RECEIVE_WORDS,
+        words: words
+      });
     });
-    var message = ChatMessageUtils.getCreatedMessageData(text, currentThreadID);
-    ChatWebAPIUtils.createMessage(message);
   }
 
 };

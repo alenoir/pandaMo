@@ -10,17 +10,17 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
+var WordConstants = require('../constants/WordConstants');
 var EventEmitter = require('events').EventEmitter;
-var MessageStore = require('../stores/MessageStore');
-var ThreadStore = require('../stores/ThreadStore');
 var assign = require('object-assign');
 
-var ActionTypes = ChatConstants.ActionTypes;
+var ActionTypes = WordConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var UnreadThreadStore = assign({}, EventEmitter.prototype, {
+var _words = [];
+
+var WordStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);
@@ -30,48 +30,36 @@ var UnreadThreadStore = assign({}, EventEmitter.prototype, {
    * @param {function} callback
    */
   addChangeListener: function(callback) {
+    console.log('** addChangeListener');
     this.on(CHANGE_EVENT, callback);
   },
 
-  /**
-   * @param {function} callback
-   */
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
 
-  getCount: function() {
-    var threads = ThreadStore.getAll();
-    var unreadCount = 0;
-    for (var id in threads) {
-      if (!threads[id].lastMessage.isRead) {
-        unreadCount++;
-      }
-    }
-    return unreadCount;
-  }
+  get: function(id) {
+    return _words[id];
+  },
+
+  getAll: function() {
+    return _words;
+  },
 
 });
 
-UnreadThreadStore.dispatchToken = ChatAppDispatcher.register(function(action) {
-  ChatAppDispatcher.waitFor([
-    ThreadStore.dispatchToken,
-    MessageStore.dispatchToken
-  ]);
+WordStore.dispatchToken = AppDispatcher.register(function(action) {
 
-  switch (action.type) {
-
-    case ActionTypes.CLICK_THREAD:
-      UnreadThreadStore.emitChange();
-      break;
-
-    case ActionTypes.RECEIVE_RAW_MESSAGES:
-      UnreadThreadStore.emitChange();
+  switch(action.type) {
+    case ActionTypes.RECEIVE_WORDS:
+      _words = action.words;
+      WordStore.emitChange();
       break;
 
     default:
-      // do nothing
+      break;
   }
+
 });
 
-module.exports = UnreadThreadStore;
+module.exports = WordStore;

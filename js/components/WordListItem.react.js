@@ -10,15 +10,26 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var keyMirror = require('keymirror');
+var React = require('react');
+var cx = require('react/lib/cx');
 
-module.exports = {
+var ReactPropTypes = React.PropTypes;
 
-  ActionTypes: keyMirror({
-    CLICK_THREAD: null,
-    CREATE_MESSAGE: null,
-    RECEIVE_RAW_CREATED_MESSAGE: null,
-    RECEIVE_RAW_MESSAGES: null
-  })
+var WordListItem = React.createClass({
 
-};
+  propTypes: {
+    word: ReactPropTypes.object
+  },
+
+  render: function() {
+    var word = this.props.word;
+    return (
+      <li>
+        <h5 className="word-name">{word.get('name')}</h5>
+      </li>
+    );
+  }
+
+});
+
+module.exports = WordListItem;

@@ -10,25 +10,19 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
+var React = require('react');
+var WordList = require('./WordList.react');
 
-var ActionTypes = ChatConstants.ActionTypes;
+var App = React.createClass({
 
-module.exports = {
-
-  receiveAll: function(rawMessages) {
-    ChatAppDispatcher.dispatch({
-      type: ActionTypes.RECEIVE_RAW_MESSAGES,
-      rawMessages: rawMessages
-    });
-  },
-
-  receiveCreatedMessage: function(createdMessage) {
-    ChatAppDispatcher.dispatch({
-      type: ActionTypes.RECEIVE_RAW_CREATED_MESSAGE,
-      rawMessage: createdMessage
-    });
+  render: function() {
+    return (
+      <div className="chatapp">
+        <WordList />
+      </div>
+    );
   }
 
-};
+});
+
+module.exports = App;
