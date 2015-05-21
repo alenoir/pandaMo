@@ -10,17 +10,17 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var AppDispatcher = require('../dispatcher/AppDispatcher');
-var WordConstants = require('../constants/WordConstants');
-var Parse = require('parse').Parse;
+import AppDispatcher from '../dispatcher/AppDispatcher';
+import WordConstants from '../constants/WordConstants';
+import Parse from 'parse';
 
 var ActionTypes = WordConstants.ActionTypes;
 
-module.exports = {
+class WordAction extends React.Component {
 
-  fetchAll: function(words) {
+  fetchAll(words) {
     console.log('** fetchAll');
-    var wordQuery = new Parse.Query('Word').ascending('createdAt')
+    let wordQuery = new Parse.Query('Word').ascending('createdAt')
     wordQuery.find().then(function(words){
       console.log(words);
       AppDispatcher.dispatch({
@@ -30,4 +30,6 @@ module.exports = {
     });
   }
 
-};
+}
+
+export default WordAction;
