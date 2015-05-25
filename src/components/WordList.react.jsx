@@ -27,7 +27,6 @@ class WordList extends React.Component {
     }
 
     componentWillMount() {
-      console.log('componentWillMount');
       WordStore.addChangeListener(this._onChange);
       WordAction.fetchAll()
     }
@@ -37,7 +36,6 @@ class WordList extends React.Component {
     }
 
     _onChange() {
-      console.log("** _onChange"+this);
       this.setState({words: WordStore.getAll()});
     }
 

@@ -11,34 +11,56 @@
  */
 
 import React from 'react'
+import {Parse} from 'parse'
 import WordList from './WordList.react.jsx'
+import Login from './Login.react.jsx'
+import ProfileActions from '../actions/ProfileActions.jsx'
+import ProfileStore from '../stores/ProfileStore.jsx'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     //set the state as a property on the class
-    this.state = {};
+    this.state = {
+      user: Parse.User.current()
+    };
   }
 
   componentWillMount() {
-      //executes when the component is about to mount onto DOM
+    ProfileStore.addChangeListener(this.profileChange.bind(this));
   }
 
   componentWillUnmount() {
-      //executes when the component is about to unmount from DOM
+    ProfileStore.removeChangeListener(this.profileChange.bind(this));
   }
 
-  customMethod() {
-    //force a re-render by changing the state
-    this.setState({})
+  profileChange() {
+    this.setState({
+      user: Parse.User.current()
+    });
+  }
+
+  logout() {
+    Parse.User.logOut()
+    ProfileActions.logout()
   }
 
   render() {
-    return (
-      <div className="chatapp">
-        <WordList />
-      </div>
-    );
+    if (this.state.user) {
+      return (
+        <div>
+          <button onClick={this.logout}>
+            Logout
+          </button>
+
+          <WordList></WordList>
+        </div>
+      );
+    } else {
+      return (
+        <Login />
+      );
+    }
   }
 }
 

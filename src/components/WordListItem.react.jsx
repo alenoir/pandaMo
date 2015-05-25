@@ -31,11 +31,6 @@ class WordListItem extends React.Component {
         //executes when the component is about to unmount from DOM
     }
 
-    customMethod() {
-        //force a re-render by changing the state
-        this.setState({})
-    }
-
     render() {
       var word = this.state.word;
       return (

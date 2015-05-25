@@ -1,16 +1,6 @@
-/**
- * This file is provided by Facebook for testing and evaluation purposes
- * only. Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 import React from 'react'
+import {Parse} from 'parse'
+import ProfileActions from '../actions/ProfileActions.jsx'
 
 class Login extends React.Component {
   constructor(props) {
@@ -20,6 +10,7 @@ class Login extends React.Component {
   }
 
   componentWillMount() {
+    console.log('ok');
       //executes when the component is about to mount onto DOM
   }
 
@@ -27,16 +18,23 @@ class Login extends React.Component {
       //executes when the component is about to unmount from DOM
   }
 
-  customMethod() {
-    //force a re-render by changing the state
-    this.setState({})
+  login() {
+    console.log("kikou facebook");
+    Parse.FacebookUtils.logIn(null, {
+      success: function(user) {
+        ProfileActions.login();
+      },
+      error: function(user, error) {
+        alert("User cancelled the Facebook login or did not fully authorize.");
+      }
+    });
   }
 
   render() {
     return (
-      <div className="login">
-        Login button
-      </div>
+      <button onClick={this.login}>
+        Login via facebook
+      </button>
     );
   }
 }
