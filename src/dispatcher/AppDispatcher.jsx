@@ -10,26 +10,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import AppDispatcher from '../dispatcher/AppDispatcher';
-import WordConstants from '../constants/WordConstants';
-import Parse from 'parse';
+import {Dispatcher} from 'flux';
 
-var ActionTypes = WordConstants.ActionTypes;
-
-class WordAction extends React.Component {
-
-  fetchAll(words) {
-    console.log('** fetchAll');
-    let wordQuery = new Parse.Query('Word').ascending('createdAt')
-    wordQuery.find().then(function(words){
-      console.log(words);
-      AppDispatcher.dispatch({
-        type: ActionTypes.RECEIVE_WORDS,
-        words: words
-      });
-    });
-  }
+class AppDispatcher extends Dispatcher {
 
 }
 
-export default WordAction;
+let _AppDispatcher = new AppDispatcher();
+
+export default _AppDispatcher;

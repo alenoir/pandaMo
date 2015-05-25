@@ -10,19 +10,35 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var React = require('react');
-var WordList = require('./WordList.react');
+import React from 'react'
 
-var App = React.createClass({
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    //set the state as a property on the class
+    this.state = {};
+  }
 
-  render: function() {
+  componentWillMount() {
+      //executes when the component is about to mount onto DOM
+  }
+
+  componentWillUnmount() {
+      //executes when the component is about to unmount from DOM
+  }
+
+  customMethod() {
+    //force a re-render by changing the state
+    this.setState({})
+  }
+
+  render() {
     return (
-      <div className="chatapp">
-        <WordList />
+      <div className="login">
+        Login button
       </div>
     );
   }
+}
 
-});
-
-module.exports = App;
+export default Login

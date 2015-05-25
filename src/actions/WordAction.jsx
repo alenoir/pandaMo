@@ -10,6 +10,25 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var Dispatcher = require('flux').Dispatcher;
+import React from 'react'
+import AppDispatcher from '../dispatcher/AppDispatcher.jsx';
+import WordConstants from '../constants/WordConstants.jsx';
+import {Parse} from 'parse';
 
-module.exports = new Dispatcher();
+var ActionTypes = WordConstants.ActionTypes;
+
+export default {
+
+  fetchAll: () => {
+    console.log('** fetchAll');
+    let wordQuery = new Parse.Query('Word').ascending('createdAt')
+    wordQuery.find().then(function(words){
+      console.log(words);
+      AppDispatcher.dispatch({
+        type: ActionTypes.RECEIVE_WORDS,
+        words: words
+      })
+    })
+  }
+
+}

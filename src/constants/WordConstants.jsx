@@ -10,17 +10,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-// This file bootstraps the entire application.
+import keyMirror from 'keymirror'
 
-var App = require('./components/App.react');
-var React = require('react');
-var Parse = require('parse').Parse;
+module.exports = {
 
-window.React = React; // export for http://fb.me/react-devtools
+  ActionTypes: keyMirror({
+    RECEIVE_WORDS: null
+  })
 
-Parse.initialize("MqUfuZFItBwGT01dFImQZjZPQMgCNty8qqrvqeMd", "Hxu5mvSHC22Ba5bvQNaIGZFHRQvSnwWQ4ICFt5BO");
-
-React.render(
-    <App />,
-    document.getElementById('react')
-);
+};

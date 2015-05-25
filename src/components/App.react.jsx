@@ -10,26 +10,36 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var React = require('react');
-var cx = require('react/lib/cx');
+import React from 'react'
+import WordList from './WordList.react.jsx'
 
-var ReactPropTypes = React.PropTypes;
-
-var WordListItem = React.createClass({
-
-  propTypes: {
-    word: ReactPropTypes.object
-  },
-
-  render: function() {
-    var word = this.props.word;
-    return (
-      <li>
-        <h5 className="word-name">{word.get('name')}</h5>
-      </li>
-    );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    //set the state as a property on the class
+    this.state = {};
   }
 
-});
+  componentWillMount() {
+      //executes when the component is about to mount onto DOM
+  }
 
-module.exports = WordListItem;
+  componentWillUnmount() {
+      //executes when the component is about to unmount from DOM
+  }
+
+  customMethod() {
+    //force a re-render by changing the state
+    this.setState({})
+  }
+
+  render() {
+    return (
+      <div className="chatapp">
+        <WordList />
+      </div>
+    );
+  }
+}
+
+export default App
