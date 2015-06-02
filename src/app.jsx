@@ -1,7 +1,9 @@
 import React from 'react'
 import {Parse} from 'parse'
+import Router from 'react-router';
 import App from './components/App.react.jsx'
-
+import WordList from './components/WordList.react.jsx'
+import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
 
 window.React = React;
 
@@ -24,7 +26,12 @@ window.fbAsyncInit = function() {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-React.render(
-  <App />,
-  document.getElementById('react')
+let routes = (
+  <Route name="app" path="/" handler={App}>
+    <DefaultRoute handler={WordList} />
+  </Route>
 );
+
+Router.run(routes, function (Handler) {
+  React.render(<Handler/>, document.body);
+});

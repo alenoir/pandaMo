@@ -1,37 +1,22 @@
-// webpack.config.js
-var path = require('path');
-var node_modules = path.resolve(__dirname, 'node_modules');
-var pathToReact = path.resolve(node_modules, 'react/dist/react.js');
-
-var config = {
-    entry: path.resolve(__dirname, 'src/app.jsx'),
+var webpack = require('webpack');
+module.exports = {
+    entry: [
+      'webpack/hot/only-dev-server',
+      "./src/app.jsx"
+    ],
     output: {
-        path: path.resolve(__dirname, 'build'),
-        filename: 'bundle.js'
-    },
-    resolve: {
-        alias: {
-            'react': pathToReact
-        }
+        path: __dirname + '/build',
+        filename: "bundle.js"
     },
     module: {
         loaders: [
-            {
-                test: /\.jsx?$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader?stage=1&optional=runtime'
-            },
-            {
-                test: /\.scss$/,
-                loader: "style!css!sass?outputStyle=expanded=includePaths[]=" + node_modules + "/bootstrap-sass/assets/stylesheets/"
-            },
-            {
-                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-                loader: 'url-loader?limit=100000'
-            }
-        ],
-        noParse: [pathToReact]
-    }
-};
+            { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
+            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
+            { test: /\.css$/, loader: "style!css" }
+        ]
+    },
+    plugins: [
+      new webpack.NoErrorsPlugin()
+    ]
 
-module.exports = config;
+};
