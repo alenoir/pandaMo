@@ -1,6 +1,6 @@
 {
   "name": "pandaMo",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Test react app",
   "repository": "https://github.com/alenoir/pandaMo",
   "main": "src/app.jsx",
