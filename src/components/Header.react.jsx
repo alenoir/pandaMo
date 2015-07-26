@@ -1,6 +1,6 @@
 import React from 'react'
 import {Parse} from 'parse'
-import WordList from './WordList.react.jsx'
+import WordList from './Word/List.react.jsx'
 import LoginButton from './LoginButton.react.jsx'
 import ProfileActions from '../actions/ProfileActions.jsx'
 import ProfileStore from '../stores/ProfileStore.jsx'

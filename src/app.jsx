@@ -2,10 +2,15 @@ import React from 'react'
 import {Parse} from 'parse'
 import Router from 'react-router';
 import App from './components/App.react.jsx'
-import WordList from './components/WordList.react.jsx'
-import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
+import Home from './components/Home.react.jsx'
+import WordAdd from './components/Word/Add.react.jsx'
+import { DefaultRoute, Link, Route, RouteHandler } from 'react-router'
+
+import injectTapEventPlugin from "react-tap-event-plugin"
 
 window.React = React;
+
+injectTapEventPlugin();
 
 Parse.initialize("MqUfuZFItBwGT01dFImQZjZPQMgCNty8qqrvqeMd", "Hxu5mvSHC22Ba5bvQNaIGZFHRQvSnwWQ4ICFt5BO");
 
@@ -28,7 +33,8 @@ window.fbAsyncInit = function() {
 
 let routes = (
   <Route name="app" path="/" handler={App}>
-    <DefaultRoute handler={WordList} />
+    <Route name="word-add" path="word/add" handler={WordAdd}/>
+    <DefaultRoute handler={Home} />
   </Route>
 );
 

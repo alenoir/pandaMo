@@ -48,12 +48,17 @@ let _WordStore = new WordStore();
 export default _WordStore;
 
 AppDispatcher.register((action) => {
-    switch(action.type) {
-        case WordActionTypes.RECEIVE_WORDS:
-            _words = action.words;
-            _WordStore.emitChange();
-            break;
-        default:
-            break;
-    }
+  switch(action.type) {
+    case WordActionTypes.RECEIVE_WORDS:
+      _words = action.words;
+      _WordStore.emitChange();
+      break;
+    case WordActionTypes.CREATE_WORD:
+      var word = action.word;
+      _words = _words.concat([word]);
+      _WordStore.emitChange();
+      break;
+    default:
+      break;
+  }
 });
