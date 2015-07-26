@@ -15,8 +15,8 @@ import WordConstants from '../constants/WordConstants.jsx'
 import {EventEmitter} from 'events';
 import assign from 'object-assign'
 
-var ActionTypes = WordConstants.ActionTypes;
-var CHANGE_EVENT = 'change';
+var WordActionTypes = WordConstants.ActionTypes;
+var CHANGE_EVENT = 'change_word';
 
 let _words = [];
 
@@ -27,7 +27,6 @@ class WordStore extends EventEmitter {
     }
 
     addChangeListener(cb) {
-      console.log('** addChangeListener');
       this.on(CHANGE_EVENT, cb);
     }
 
@@ -49,13 +48,17 @@ let _WordStore = new WordStore();
 export default _WordStore;
 
 AppDispatcher.register((action) => {
-  console.log(action.words);
-    switch(action.type) {
-        case ActionTypes.RECEIVE_WORDS:
-            _words = action.words;
-            _WordStore.emitChange();
-            break;
-        default:
-            break;
-    }
+  switch(action.type) {
+    case WordActionTypes.RECEIVE_WORDS:
+      _words = action.words;
+      _WordStore.emitChange();
+      break;
+    case WordActionTypes.CREATE_WORD:
+      var word = action.word;
+      _words = _words.concat([word]);
+      _WordStore.emitChange();
+      break;
+    default:
+      break;
+  }
 });

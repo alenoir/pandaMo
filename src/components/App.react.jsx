@@ -1,45 +1,94 @@
-/**
- * This file is provided by Facebook for testing and evaluation purposes
- * only. Facebook reserves all rights not expressly granted.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * FACEBOOK BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
- * AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 import React from 'react'
-import WordList from './WordList.react.jsx'
+import {Parse} from 'parse'
+import WordList from './Word/List.react.jsx'
+import Header from './Header.react.jsx'
+import ProfileActions from '../actions/ProfileActions.jsx'
+import ProfileStore from '../stores/ProfileStore.jsx'
+import { DefaultRoute, Link, Route, RouteHandler } from 'react-router';
+
+import mui from 'material-ui'
+
+let ThemeManager = new mui.Styles.ThemeManager();
+let AppBar = mui.AppBar
+  , LeftNav = mui.LeftNav
+  , MenuItem = mui.MenuItem;
+
+let menuItems = [
+  { route: '/', text: 'Home' },
+  { route: '/word/add', text: 'Add' }
+];
+
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    //set the state as a property on the class
-    this.state = {};
+  constructor() {
+    super();
+
+    this._handleClick = this._handleClick.bind(this);
+    this._getSelectedIndex = this._getSelectedIndex.bind(this);
+    this._onLeftNavChange = this._onLeftNavChange.bind(this);
   }
 
-  componentWillMount() {
-      //executes when the component is about to mount onto DOM
+  getChildContext() {
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    };
   }
 
-  componentWillUnmount() {
-      //executes when the component is about to unmount from DOM
+  _handleClick(e) {
+    e.preventDefault();
+
+    this.refs.leftNav.toggle();
   }
 
-  customMethod() {
-    //force a re-render by changing the state
-    this.setState({})
+  // Get the selected item in LeftMenu
+  _getSelectedIndex() {
+    let currentItem;
+
+    for (let i = menuItems.length - 1; i >= 0; i--) {
+      currentItem = menuItems[i];
+      if (currentItem.route && this.context.router.isActive(currentItem.route)) {
+        return i;
+      }
+    }
+  }
+
+  _onLeftNavChange(e, key, payload) {
+    // Do DOM Diff refresh
+    this.context.router.transitionTo(payload.route);
   }
 
   render() {
+
     return (
-      <div className="chatapp">
-        <WordList />
+      <div className="container-fluid">
+        <LeftNav
+          ref="leftNav"
+          docked={false}
+          menuItems={menuItems}
+          selectedIndex={this._getSelectedIndex()}
+          onChange={this._onLeftNavChange} />
+
+        <header className="row">
+          <AppBar title='PandaMo' onLeftIconButtonTouchTap={this._handleClick} />
+        </header>
+
+        <section>
+          <RouteHandler />
+          
+        </section>
+
       </div>
     );
   }
+
 }
+
+App.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
+
+App.contextTypes = {
+  router: React.PropTypes.func
+};
 
 export default App
