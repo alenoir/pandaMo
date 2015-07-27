@@ -44,8 +44,9 @@
     "webpack-dev-server": "^1.9.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --devtool eval --hot --progress --colors --content-base build",
-    "build": "webpack --progress --colors"
+    "dev": "webpack-dev-server --config ./webpack-dev.config.js --hot --progress --colors --content-base build",
+    "build": "webpack --config ./webpack-prod.config.js --progress --colors",
+    "start": "node server/index.js"
   },
   "author": "Antoine Lenoir",
   "browserify": {
